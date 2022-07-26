@@ -17,3 +17,4 @@ public/media/
 /log
 .phpunit.result.cache
 pint.json
+/nbproject
