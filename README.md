@@ -59,6 +59,23 @@ $ vagrant up
 $ vagrant ssh
 ```
 
+Setting up your development environment on your docker :
+```bash
+$ git clone https://github.com/guillaumebriday/laravel-blog.git
+$ cd laravel-blog
+$ cp .env.example .env
+$ composer require laravel/sail --dev
+$ ./vendor/bin/sail up -d
+$ php artisan key:generate
+$ php  artisan horizon:install
+$ php  artisan telescope:install
+$ php artisan storage:link
+$ php artisan migrate --seed
+$ npm install
+$ npm audit fix
+$ npm run production
+```
+
 All following commands must be run inside the VM:
 ```bash
 $ cd code
