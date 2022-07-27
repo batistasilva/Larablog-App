@@ -69,8 +69,8 @@ $ ./vendor/bin/sail up -d
 $ php artisan key:generate
 $ php  artisan horizon:install
 $ php  artisan telescope:install
-$ php artisan storage:link
-$ php artisan migrate --seed
+$ ./vendor/bin/sail artisan storage:link
+$ ./vendor/bin/sail artisan migrate --seed
 $ npm install
 $ npm audit fix
 $ npm run production
