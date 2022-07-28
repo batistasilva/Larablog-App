@@ -9,15 +9,15 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
-class PostController extends Controller
-{
+class PostController extends Controller {
+
     /**
      * Show the application posts index.
      */
-    public function index(): View
-    {
+    public function index(): View {
         return view('admin.posts.index', [
             'posts' => Post::withCount('comments', 'likes')->with('author')->latest()->paginate(50)
         ]);
@@ -26,8 +26,7 @@ class PostController extends Controller
     /**
      * Display the specified resource edit form.
      */
-    public function edit(Post $post): View
-    {
+    public function edit(Post $post): View {
         return view('admin.posts.edit', [
             'post' => $post,
             'users' => User::authors()->pluck('name', 'id'),
@@ -38,8 +37,7 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request): View
-    {
+    public function create(Request $request): View {
         return view('admin.posts.create', [
             'users' => User::authors()->pluck('name', 'id'),
             'media' => MediaLibrary::first()->media()->get()->pluck('name', 'id')
@@ -49,9 +47,10 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostsRequest $request): RedirectResponse
-    {
-        $post = Post::create($request->only(['title', 'content', 'posted_at', 'author_id', 'thumbnail_id']));
+    public function store(PostsRequest $request) {
+
+        $post = Post::create($request->all());
+//        $post = Post::create($request->only(['title', 'content', 'posted_at', 'author_id', 'thumbnail_id']));
 
         return redirect()->route('admin.posts.edit', $post)->withSuccess(__('posts.created'));
     }
@@ -59,8 +58,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(PostsRequest $request, Post $post): RedirectResponse
-    {
+    public function update(PostsRequest $request, Post $post): RedirectResponse {
         $post->update($request->only(['title', 'content', 'posted_at', 'author_id', 'thumbnail_id']));
 
         return redirect()->route('admin.posts.edit', $post)->withSuccess(__('posts.updated'));
@@ -69,10 +67,10 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
-    {
+    public function destroy(Post $post) {
         $post->delete();
 
         return redirect()->route('admin.posts.index')->withSuccess(__('posts.deleted'));
     }
+
 }

@@ -1,5 +1,9 @@
 @extends('admin.layouts.app')
 
+@if ($message = session('message'))
+    <div class="alert alert-success">{{ $message }}</div>
+@endif
+
 @section('content')
     <h1>@lang('posts.create')</h1>
 
