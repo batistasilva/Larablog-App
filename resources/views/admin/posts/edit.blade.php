@@ -4,7 +4,7 @@
     <p>@lang('posts.show') : {{ link_to_route('posts.show', route('posts.show', $post), $post) }}</p>
 
     @include('admin/posts/_thumbnail')
-
+    @csrf
     {!! Form::model($post, ['route' => ['admin.posts.update', $post], 'method' =>'PUT']) !!}
         @include('admin/posts/_form')
 

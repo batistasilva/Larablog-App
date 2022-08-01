@@ -30,15 +30,16 @@ class PostController extends Controller {
         return view('admin.posts.edit', [
             'post' => $post,
             'users' => User::authors()->pluck('name', 'id'),
-            'media' => MediaLibrary::first()->media()->get()->pluck('name', 'id')
+            'media' => MediaLibrary::first()->media()->get()->pluck('name', 'id'                                                                   ),compact('post')
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request): View {
+    public function create(Request $request, Post $post): View {                                 
         return view('admin.posts.create', [
+            'post' => $post,
             'users' => User::authors()->pluck('name', 'id'),
             'media' => MediaLibrary::first()->media()->get()->pluck('name', 'id')
         ]);
@@ -47,10 +48,10 @@ class PostController extends Controller {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostsRequest $request) {
+    public function store(PostsRequest $request): RedirectResponse {
 
-        $post = Post::create($request->all());
-//        $post = Post::create($request->only(['title', 'content', 'posted_at', 'author_id', 'thumbnail_id']));
+       // $post = Post::create($request->all());
+        $post = Post::create($request->only(['title', 'content', 'posted_at', 'author_id', 'thumbnail_id']));
 
         return redirect()->route('admin.posts.edit', $post)->withSuccess(__('posts.created'));
     }
@@ -59,6 +60,9 @@ class PostController extends Controller {
      * Update the specified resource in storage.
      */
     public function update(PostsRequest $request, Post $post): RedirectResponse {
+//        $post = $request->only(['title', 'content', 'posted_at', 'author_id', 'thumbnail_id']);//$request->all();
+//        dump($post);
+        
         $post->update($request->only(['title', 'content', 'posted_at', 'author_id', 'thumbnail_id']));
 
         return redirect()->route('admin.posts.edit', $post)->withSuccess(__('posts.updated'));

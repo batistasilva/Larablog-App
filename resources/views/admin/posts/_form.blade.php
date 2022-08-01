@@ -1,6 +1,6 @@
-@php
+{{--@php
     $posted_at = old('posted_at') ?? (isset($post) ? $post->posted_at->format('Y-m-d') : null);
-@endphp
+@endphp--}}
 
 @include('admin.layouts._message')
 {{--{{dump($post)}}--}}
@@ -52,7 +52,7 @@
     <div class="col-md-9">
         <select name="thumbnail_id" id="thumbnail_id" class="form-control @error('thumbnail_id') is-invalid @enderror">
             @foreach ($media as $id => $name)
-            <option {{ $id == old($post->thumbnail_id) ? 'selected' : '' }} value="{{ $post->thumbnail_id }}">{{ $name }}</option>
+            <option {{ $id == old("thumbnail_id", $post->thumbnail_id) ? 'selected' : '' }} value="{{ $id }}">{{ $name }}</option>
             @endforeach
         </select>
           @error('thumbnail_id')
